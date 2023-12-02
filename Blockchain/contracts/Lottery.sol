@@ -5,8 +5,18 @@ contract lottery {
     address public manager;
     address payable[] public participants;
 
+    modifier OnlyManager() {
+        require(manager == msg.sender, "Only Manager can Modify");
+        _;
+    }
+
     constructor() {
         manager = payable(msg.sender);
+    }
+
+    receive() external payable OnlyManager {
+        require(msg.value <= 5 ether, "Atleast 5 ether is required");
+        participants.push(payable(msg.sender));
     }
 
     function showBal() public view returns (uint) {
