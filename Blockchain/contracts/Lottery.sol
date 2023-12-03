@@ -36,9 +36,10 @@ contract lottery {
             );
     }
 
-    function selectWinner() public view OnlyManager returns (address) {
+    function selectWinner() public OnlyManager {
         require(participants.length >= 3);
         uint index = random() % participants.length;
-        return participants[index];
+        address payable winner = payable(participants[index]);
+        winner.transfer(showBal());
     }
 }
