@@ -41,5 +41,6 @@ contract lottery {
         uint index = random() % participants.length;
         address payable winner = payable(participants[index]);
         winner.transfer(showBal());
+        participants = new address payable[](0); // to empty the Dynamic array after Winner gets the prize
     }
 }
