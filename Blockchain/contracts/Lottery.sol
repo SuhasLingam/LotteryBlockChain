@@ -5,24 +5,33 @@ contract lottery {
     address public manager;
     address payable[] public participants;
 
+    // A modifier is used to modify the behavior of functions in a contract.
+    // The function body is executed only if the modifier’s conditions are met.
     modifier OnlyManager() {
         require(manager == msg.sender, "Only Manager can Modify");
         _;
     }
 
+    // The constructor is called when the contract is created.
+    // The 'msg.sender' is the address of the contract creator.
     constructor() {
         manager = payable(msg.sender);
     }
 
+    // This function is called whenever Ether is sent to the contract.
+    // The function will only execute if the value sent is less than or equal to 5 Ether.
     receive() external payable {
-        require(msg.value <= 5, "Atleast 5 ether is required");
+        require(msg.value == 2, "2 ether is required");
         participants.push(payable(msg.sender));
     }
 
+    // This function returns the contract's current balance.
+    // It can only be called by the contract's manager.
     function showBal() public view OnlyManager returns (uint) {
         return address(this).balance;
     }
 
+    // This function generates a pseudo-random number using the hash of the current block.
     function random() public view returns (uint) {
         return
             uint(
@@ -36,6 +45,8 @@ contract lottery {
             );
     }
 
+    // This function selects a winner from the participants array and transfers the contract's balance to the winner.
+    // The function can only be called by the contract's manager.
     function selectWinner() public OnlyManager {
         require(participants.length >= 3);
         uint index = random() % participants.length;
