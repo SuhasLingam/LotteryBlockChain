@@ -5,8 +5,6 @@ contract lottery {
     address public manager;
     address payable[] public participants;
 
-    // A modifier is used to modify the behavior of functions in a contract.
-    // The function body is executed only if the modifier’s conditions are met.
     modifier OnlyManager() {
         require(manager == msg.sender, "Only Manager can Modify");
         _;
