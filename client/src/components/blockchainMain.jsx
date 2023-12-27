@@ -4,6 +4,7 @@ import ConnectWallet from "./connectWallet";
 import abi from "../ContractJson/lottery.json";
 
 const blockchainMain = () => {
+  const [part, setPart] = useState(false);
   const [connect, setConnect] = useState("Connect wallet");
   const [add, setAdd] = useState("0x0000000000000...");
   const [state, setState] = useState({
@@ -56,14 +57,16 @@ const blockchainMain = () => {
 
   return (
     <div className="h-screen w-screen items-center justify-center flex">
-      <button
-        onClick={ConnectWalletAndSM}
-        className="absolute top-[70px] hover:bg-yellow-400 shadow-2xl shadow-gray-700  bg-indigo-600 text-white font-semibold  font-2xl p-4 rounded-2xl "
-      >
-        {connect}
-      </button>
+      {!part && (
+        <button
+          onClick={ConnectWalletAndSM}
+          className="absolute top-[70px] hover:bg-yellow-400 shadow-2xl shadow-gray-700  bg-indigo-600 text-white font-semibold  font-2xl p-4 rounded-2xl "
+        >
+          {connect}
+        </button>
+      )}
 
-      <ConnectWallet add={add} state={state} />
+      <ConnectWallet add={add} state={state} part={part} setPart={setPart} />
     </div>
   );
 };
